@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Демо UI компонентів</title>
+  <style>
+    :root {
+      --border: #d1d5db;
+      --muted: #6b7280;
+      --text: #111827;
+      --bg: #ffffff;
+      --bg-alt: #f9fafb;
+      --accent: #2563eb;
+      --radius: 8px;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 16px; font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif; color: var(--text); background: var(--bg); }
+    h1 { font-size: 22px; margin: 0 0 8px; }
+    p.lead { margin: 0 0 16px; color: var(--muted); }
+
+    section { border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; margin: 12px 0; background: #fff; }
+    section h2 { font-size: 16px; margin: 0 0 8px; }
+    label { margin-right: 10px; display: inline-block; }
+
+    .text-input, .select, .search { width: 100%; max-width: 420px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; }
+    .btn { padding: 8px 12px; border: 1px solid var(--border); background: var(--bg-alt); border-radius: 6px; cursor: pointer; }
+    .btn:active { transform: translateY(1px); }
+    .hint { display: block; margin-top: 6px; color: var(--muted); font-size: 12px; }
+    a.link { color: var(--accent); }
+
+    /* Тултип */
+    .tip { position: relative; display: inline-block; }
+    .tip .bubble { display: none; position: absolute; left: 0; top: 120%; background: var(--bg-alt); border: 1px solid var(--border); padding: 6px 8px; border-radius: 6px; width: 220px; font-size: 12px; }
+    .tip:focus-within .bubble, .tip:hover .bubble { display: block; }
+    .tip .icon { display: inline-block; width: 18px; height: 18px; line-height: 18px; text-align: center; border: 1px solid var(--border); border-radius: 50%; font-size: 12px; color: var(--accent); cursor: help; }
+
+    /* Tabs без flex/grid */
+    .tabs ul { list-style: none; padding: 0; margin: 0 0 8px; border-bottom: 1px solid var(--border); }
+    .tabs li { display: inline-block; margin-right: 6px; }
+    .tabbtn { background: var(--bg-alt); border: 1px solid var(--border); border-bottom: none; border-top-left-radius: 6px; border-top-right-radius: 6px; padding: 6px 10px; cursor: pointer; }
+    .tabbtn[aria-selected="true"] { background: #fff; font-weight: 600; }
+    .tabpanel { display: none; padding-top: 6px; }
+    .tabpanel.active { display: block; }
+
+    /* Таблиця (data grid) */
+    .table-wrap { overflow: auto; border: 1px solid var(--border); border-radius: 6px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    th { text-align: left; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Демо базових UI компонентів</h1>
+    <p class="lead">Кісєєв Іван ІП-35</p>
+  </header>
+
+  <!-- 1–2. Radiobutton & Checkbox -->
+  <section>
+    <h2>Radio buttons & Checkboxes <span class="tip"><button class="icon" aria-label="Підказка">i</button><span class="bubble">Радіокнопки — вибір <b>одного</b> варіанту. Чекбокси — кількох незалежних опцій.</span></span></h2>
+    <div>
+      <div class="hint">Приклад групи:</div>
+      <label><input type="radio" name="theme" value="light"> Light</label>
+      <label><input type="radio" name="theme" value="dark" checked> Dark</label>
+      <label><input type="radio" name="theme" value="auto"> Auto</label>
+    </div>
+    <div style="margin-top:6px;">
+      <div class="hint">Приклад чекбоксів:</div>
+      <label><input type="checkbox" name="i" value="code" checked> Coding</label>
+      <label><input type="checkbox" name="i" value="games"> Games</label>
+      <label><input type="checkbox" name="i" value="music"> Music</label>
+    </div>
+  </section>
+
+  <!-- 3. Text input -->
+  <section>
+    <h2>Text input <span class="tip"><button class="icon" aria-label="Підказка">i</button><span class="bubble">Поле для вільного введення тексту. Підказка знизу пояснює формат.</span></span></h2>
+    <label for="name">Name</label>
+    <input id="name" class="text-input" type="text" placeholder="Ivan" aria-describedby="name-hint">
+    <small id="name-hint" class="hint">Введіть щонайменше 2 символи.</small>
+  </section>
+
+  <!-- 4. Tabs -->
+  <section>
+    <h2>Tabs <span class="tip"><button class="icon" aria-label="Підказка">i</button><span class="bubble">Клацніть по вкладці, щоб перемкнути панель. Стрілки ← → також працюють.</span></span></h2>
+    <div class="tabs" role="tablist" aria-label="Демо вкладок">
+      <ul>
+        <li><button class="tabbtn" role="tab" aria-selected="true" aria-controls="tab-1" id="t1">Overview</button></li>
+        <li><button class="tabbtn" role="tab" aria-selected="false" aria-controls="tab-2" id="t2">Code</button></li>
+        <li><button class="tabbtn" role="tab" aria-selected="false" aria-controls="tab-3" id="t3">About</button></li>
+      </ul>
+      <div id="tab-1" role="tabpanel" aria-labelledby="t1" class="tabpanel active">
+        <p>Кісєєв Іван ІП-35.</p>
+      </div>
+      <div id="tab-2" role="tabpanel" aria-labelledby="t2" class="tabpanel">
+        <pre><code>// тут напевно був код(але це не точно)</code></pre>
+      </div>
+      <div id="tab-3" role="tabpanel" aria-labelledby="t3" class="tabpanel">
+        <p>Тестова панель з текстом.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Button, 6. Text label, 7. Link -->
+  <section>
+    <h2>Button, Text label & Link <span class="tip"><button class="icon" aria-label="Підказка">i</button><span class="bubble">Кнопка запускає дію, підпис (label) звʼязує текст з елементом форми, посилання веде на іншу сторінку.</span></span></h2>
+    <p id="status" class="hint" aria-live="polite">Статус: готово.</p>
+    <button class="btn" id="action">Click me</button>
+    <span class="hint">Label зверху, а ось <a class="link" href="#" onclick="alert('Для демо перехід вимкнено')">example link</a>.</span>
+  </section>
+
+  <!-- 8. Tooltip (окремо) -->
+  <section>
+    <h2>Tooltip <span class="tip"><button class="icon" aria-label="Підказка">?</button><span class="bubble">Це проста спливаюча підказка без складних стилів.</span></span></h2>
+    <p>Наведіть курсор на значок вище, щоб побачити підказку.</p>
+  </section>
+
+  <!-- 9. Dropdown list -->
+  <section>
+    <h2>Dropdown list <span class="tip"><button class="icon" aria-label="Підказка">i</button><span class="bubble">Стандартний елемент &lt;select&gt; — простий і доступний.</span></span></h2>
+    <label for="country">Country</label>
+    <select id="country" class="select" aria-describedby="country-hint">
+      <option value="ua" selected>Ukraine</option>
+      <option value="pl">Poland</option>
+      <option value="de">Germany</option>
+      <option value="gb">United Kingdom</option>
+      <option value="jp">Japan</option>
+    </select>
+    <small id="country-hint" class="hint">Це приклад випадаючого списку.</small>
+  </section>
+
+  <!-- 10. Data grid -->
+  <section>
+    <h2>Data grid <span class="tip"><button class="icon" aria-label="Підказка">i</button><span class="bubble">Проста таблиця з пошуком і сортуванням за кліком по заголовку.</span></span></h2>
+    <label for="grid-search">Пошук</label>
+    <input id="grid-search" class="search" type="search" placeholder="Почніть вводити..." aria-describedby="grid-hint">
+    <small id="grid-hint" class="hint">Фільтрація відбувається по всіх комірках.</small>
+    <div class="table-wrap" style="margin-top:8px;">
+      <table id="grid" aria-describedby="grid-caption">
+        <caption id="grid-caption" class="hint" style="text-align:left;">Список користувачів</caption>
+        <thead>
+          <tr>
+            <th data-key="id">ID</th>
+            <th data-key="name">Name</th>
+            <th data-key="role">Role</th>
+            <th data-key="age">Age</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <script>
+    // Button demo (просто оновлюємо статус)
+    const btn = document.getElementById('action');
+    const status = document.getElementById('status');
+    btn.addEventListener('click', () => {
+      status.textContent = 'Статус: натиснуто ✅';
+      setTimeout(() => status.textContent = 'Статус: готово.', 1000);
+    });
+
+    // Tabs логіка
+    const tabButtons = Array.from(document.querySelectorAll('.tabbtn'));
+    const panels = Array.from(document.querySelectorAll('.tabpanel'));
+    function activateTab(i){
+      tabButtons.forEach((b, idx)=>{
+        b.setAttribute('aria-selected', String(idx===i));
+        panels[idx].classList.toggle('active', idx===i);
+      });
+    }
+    tabButtons.forEach((b,i)=>{
+      b.addEventListener('click',()=>activateTab(i));
+      b.addEventListener('keydown',(e)=>{
+        if(e.key==='ArrowRight') activateTab((i+1)%tabButtons.length);
+        if(e.key==='ArrowLeft') activateTab((i-1+tabButtons.length)%tabButtons.length);
+      });
+    });
+
+    // Data grid — дані, рендер, пошук, сортування
+    const data = [
+      { id: 1, name: 'Ivan', role: 'Developer', age: 21 },
+      { id: 2, name: 'Olha', role: 'Designer', age: 24 },
+      { id: 3, name: 'Taras', role: 'Analyst', age: 28 },
+      { id: 4, name: 'Marko', role: 'QA', age: 22 },
+      { id: 5, name: 'Anna', role: 'Manager', age: 26 }
+    ];
+    let sortKey = 'id';
+    let sortDir = 1; // 1 asc, -1 desc
+
+    const grid = document.getElementById('grid');
+    const tbody = grid.querySelector('tbody');
+    const search = document.getElementById('grid-search');
+
+    function render(rows){
+      tbody.innerHTML = rows.map(r => `
+        <tr>
+          <td>${r.id}</td>
+          <td>${r.name}</td>
+          <td>${r.role}</td>
+          <td>${r.age}</td>
+        </tr>
+      `).join('');
+    }
+
+    function apply(){
+      const q = search.value.trim().toLowerCase();
+      let rows = data.filter(r => Object.values(r).some(v => String(v).toLowerCase().includes(q)));
+      rows.sort((a,b)=>{
+        const va=a[sortKey], vb=b[sortKey];
+        if(va<vb) return -1*sortDir;
+        if(va>vb) return 1*sortDir;
+        return 0;
+      });
+      render(rows);
+    }
+
+    grid.querySelectorAll('th').forEach(th=>{
+      th.addEventListener('click', ()=>{
+        const key = th.getAttribute('data-key');
+        if(sortKey===key) sortDir*=-1; else { sortKey=key; sortDir=1; }
+        apply();
+      });
+    });
+
+    search.addEventListener('input', apply);
+    render(data);
+
+    // Тема сторінки через радіокнопки
+    document.querySelectorAll('input[name="theme"]').forEach(r=>{
+      r.addEventListener('change', ()=>{
+        const v=r.value;
+        document.body.style.background = (v==='light')? '#fff' : (v==='dark'? '#f3f4f6' : '#fff');
+      });
+    });
+  </script>
+</body>
+</html>
